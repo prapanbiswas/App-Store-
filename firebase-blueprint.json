@@ -1,0 +1,62 @@
+{
+  "entities": {
+    "App": {
+      "title": "App",
+      "description": "An Android application available for download.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "packageName": { "type": "string" },
+        "versionName": { "type": "string" },
+        "versionCode": { "type": "number" },
+        "minSdk": { "type": "string" },
+        "description": { "type": "string" },
+        "tags": { "type": "array" },
+        "isOpenSource": { "type": "boolean" },
+        "repoUrl": { "type": "string" },
+        "logoUrl": { "type": "string" },
+        "screenshotUrls": { "type": "array" },
+        "apkUrl": { "type": "string" },
+        "totalDownloads": { "type": "number" },
+        "averageRating": { "type": "number" },
+        "totalRatings": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "packageName", "versionName", "apkUrl"]
+    },
+    "Rating": {
+      "title": "Rating",
+      "description": "A user's rating for an application.",
+      "type": "object",
+      "properties": {
+        "rating": { "type": "number" },
+        "userId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["rating", "userId"]
+    },
+    "Admin": {
+      "title": "Admin",
+      "description": "Indicates a user has admin privileges.",
+      "type": "object",
+      "properties": {
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "firestore": {
+    "/apps/{appId}": {
+      "schema": { "$ref": "#/entities/App" },
+      "description": "Stores the application metadata."
+    },
+    "/apps/{appId}/ratings/{userId}": {
+      "schema": { "$ref": "#/entities/Rating" },
+      "description": "Stores user ratings for an app. The document ID is the userId."
+    },
+    "/admins/{userId}": {
+      "schema": { "$ref": "#/entities/Admin" },
+      "description": "Stores user IDs that have admin access."
+    }
+  }
+}

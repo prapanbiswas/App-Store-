@@ -1,0 +1,8 @@
+{
+  "name": "AppHub",
+  "description": "An App Store hub providing an open platform for Android apps",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
