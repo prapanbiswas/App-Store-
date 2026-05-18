@@ -13,8 +13,7 @@ export default function BottomNav() {
 
   return (
     <div className="fixed bottom-0 left-0 z-50 w-full md:hidden">
-      {/* Floating glassmorphic container */}
-      <div className="mx-4 mb-4 rounded-2xl border border-gray-200/50 bg-white/70 px-6 py-3 shadow-lg shadow-black/5 backdrop-blur-xl dark:border-gray-800/50 dark:bg-gray-950/70 dark:shadow-black/50">
+      <div className="mx-4 mb-4 rounded-3xl border border-white/20 bg-background/70 px-6 py-2 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-background/60">
         <ul className="flex items-center justify-between">
           {links.map((link) => {
             const isActive = location.pathname === link.to;
@@ -24,20 +23,19 @@ export default function BottomNav() {
                 <Link
                   to={link.to}
                   className={cn(
-                    "flex flex-col items-center justify-center gap-1 p-2 transition-all",
+                    "flex flex-col items-center justify-center gap-1 min-w-[64px] p-2 transition-all",
                     isActive
-                      ? "text-black dark:text-white"
-                      : "text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
+                      ? "text-primary"
+                      : "text-muted-foreground hover:text-foreground"
                   )}
                 >
                   <Icon
-                    size={24}
+                    size={22}
                     className={cn(
-                      "transition-transform",
-                      isActive ? "scale-110" : "scale-100"
+                      isActive ? "stroke-[2.5px]" : "stroke-2"
                     )}
                   />
-                  <span className="text-[10px] font-medium">{link.label}</span>
+                  <span className={cn("text-[10px]", isActive ? "font-bold" : "font-medium")}>{link.label}</span>
                 </Link>
               </li>
             );

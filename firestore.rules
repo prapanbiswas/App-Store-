@@ -1,89 +1,23 @@
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} { 
-      allow read, write: if false; 
-    }
-
-    function isValidId(id) {
-      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
-    }
     
-    function isSignedIn() {
-      return request.auth != null;
-    }
-
-    function isAdmin() {
-      return isSignedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
-    }
-
-    function incoming() {
-      return request.resource.data;
-    }
-    
-    function existing() {
-      return resource.data;
-    }
-
-    function isValidApp(data) {
-      return data.keys().hasAll(['title', 'packageName', 'versionName', 'apkUrl']) &&
-             data.title is string && data.title.size() <= 100 && data.title.size() > 0 &&
-             data.packageName is string && data.packageName.size() <= 200 &&
-             data.versionName is string && data.versionName.size() <= 100 &&
-             data.apkUrl is string && data.apkUrl.size() <= 1000;
-             // Total downloads and ratings are optional at creation
-    }
-
-    function isDownloadAction() {
-      return incoming().diff(existing()).affectedKeys().hasOnly(['totalDownloads']);
-    }
-
-    function isRatingAction() {
-      return incoming().diff(existing()).affectedKeys().hasOnly(['averageRating', 'totalRatings']);
-    }
-
-    function isValidRating(data) {
-      return data.keys().hasAll(['rating', 'userId', 'createdAt', 'updatedAt']) &&
-             data.rating is number && data.rating >= 1 && data.rating <= 5 &&
-             data.userId is string && data.userId == request.auth.uid &&
-             data.createdAt == request.time &&
-             data.updatedAt == request.time;
-    }
-    
-    function isValidRatingUpdate(data) {
-      return data.keys().hasAll(['rating', 'userId', 'createdAt', 'updatedAt']) &&
-             data.rating is number && data.rating >= 1 && data.rating <= 5 &&
-             data.userId is string && data.userId == request.auth.uid &&
-             data.updatedAt == request.time &&
-             data.createdAt == existing().createdAt;
-    }
-
+    // Admins collection: only readable by the server or checking if auth uid exists
     match /admins/{userId} {
-      allow read: if true;
-      allow write: if false; 
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if false; // Only manageable from Firebase Console directly
     }
 
+    // Apps collection: anyone can read apps, only admins can write
     match /apps/{appId} {
-      allow read: if isValidId(appId);
-      allow list: if true;
+      allow read: if true;
+      allow write: if request.auth != null && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
 
-      allow create: if isAdmin() && isValidId(appId) && isValidApp(incoming());
-      allow delete: if isAdmin() && isValidId(appId);
-
-      allow update: if isValidId(appId) && (
-        isAdmin() || 
-        (isDownloadAction() && incoming().totalDownloads == existing().get('totalDownloads', 0) + 1) ||
-        isRatingAction()
-      );
-      
-      match /ratings/{userId} {
-        allow read: if isValidId(appId) && isValidId(userId);
-        allow list: if isValidId(appId);
-        
-        allow create: if isSignedIn() && isValidId(appId) && userId == request.auth.uid && isValidRating(incoming());
-        allow update: if isSignedIn() && isValidId(appId) && userId == request.auth.uid && isValidRatingUpdate(incoming());
-        allow delete: if isSignedIn() && isValidId(appId) && userId == request.auth.uid;
-      }
+    // Users collection: storing FCM tokens and other data
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
     }
   }
 }

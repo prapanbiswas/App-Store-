@@ -1,10 +1,7 @@
 import { Link } from "react-router-dom";
 import { FiDownload, FiStar } from "react-icons/fi";
 import { motion } from "motion/react";
-
-interface AppTagProps {
-  tag: string;
-}
+import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
 
 interface AppCardProps {
   id: string;
@@ -30,51 +27,52 @@ export default function AppCard({
     <motion.div
       whileHover={{ y: -4 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      className="group flex flex-col justify-between overflow-hidden rounded-xl border border-gray-200 bg-white/50 p-5 backdrop-blur-sm transition-all hover:shadow-lg dark:border-gray-800 dark:bg-gray-900/50"
     >
-      <div>
-        <div className="mb-4 flex items-start justify-between">
-          <img
-            src={logoUrl || "https://placehold.co/100x100/png?text=Icon"}
-            alt={`${title} logo`}
-            className="h-16 w-16 rounded-2xl object-cover shadow-sm"
-          />
-          <div className="flex flex-col items-end gap-1 text-sm font-medium text-gray-500 dark:text-gray-400">
-            <span className="flex items-center gap-1">
-              <FiStar className="fill-current text-yellow-400" />
-              {averageRating.toFixed(1)}
-            </span>
-            <span className="flex items-center gap-1">
-              <FiDownload />
-              {totalDownloads}
-            </span>
-          </div>
-        </div>
-        
-        <h3 className="mb-1 text-lg font-semibold tracking-tight text-gray-900 dark:text-white line-clamp-1">
-          {title}
-        </h3>
-        <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">
-          v{versionName}
-        </p>
-        
-        <div className="mb-6 flex flex-wrap gap-2">
-          {tags.slice(0, 3).map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-semibold text-gray-600 dark:bg-gray-800 dark:text-gray-300"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      <Link
-        to={`/app/${id}`}
-        className="block w-full rounded-md bg-gray-100 py-2.5 text-center text-sm font-semibold text-gray-900 transition-colors group-hover:bg-gray-200 dark:bg-gray-800 dark:text-white dark:group-hover:bg-gray-700"
-      >
-        View Details
+      <Link to={`/app/${id}`} className="block h-full outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-xl">
+        <Card className="h-full flex flex-col justify-between overflow-hidden border-border bg-card/60 backdrop-blur-md transition-shadow hover:shadow-lg hover:border-primary/20 cursor-pointer">
+          <CardHeader className="pb-3 flex flex-row items-start justify-between space-y-0 relative">
+            <img
+              src={logoUrl || "https://placehold.co/100x100/png?text=Icon"}
+              alt={`${title} logo`}
+              className="h-16 w-16 rounded-2xl object-cover shadow-sm bg-white"
+            />
+            <div className="flex flex-col items-end gap-1 text-xs font-semibold text-muted-foreground">
+              <span className="flex items-center gap-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-500 px-2 py-0.5 rounded-full">
+                <FiStar className="fill-current" />
+                {averageRating.toFixed(1)}
+              </span>
+              <span className="flex items-center gap-1 text-[10px]">
+                <FiDownload />
+                {totalDownloads > 1000 ? `${(totalDownloads/1000).toFixed(1)}k+` : totalDownloads}
+              </span>
+            </div>
+          </CardHeader>
+          
+          <CardContent className="pb-2 flex-grow">
+            <h3 className="text-lg font-bold tracking-tight text-foreground line-clamp-1 mb-1">
+              {title}
+            </h3>
+            <p className="text-xs text-muted-foreground mb-4">
+              v{versionName}
+            </p>
+            
+            <div className="flex flex-wrap gap-1.5">
+              {tags.slice(0, 3).map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-md bg-secondary/80 px-2 py-0.5 text-[10px] font-medium text-secondary-foreground"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </CardContent>
+          <CardFooter className="pt-2 pb-4">
+             <div className="w-full rounded-lg bg-primary/5 py-2.5 text-center text-xs font-bold text-primary transition-colors group-hover:bg-primary/10">
+              Get App
+             </div>
+          </CardFooter>
+        </Card>
       </Link>
     </motion.div>
   );

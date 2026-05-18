@@ -1,12 +1,11 @@
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useTheme } from "../contexts/ThemeContext";
-import { FiSun, FiMoon, FiSearch, FiHome, FiUser, FiLogOut, FiUploadCloud } from "react-icons/fi";
-import { auth } from "../lib/firebase";
+import { FiSun, FiMoon, FiSearch, FiHome, FiUser } from "react-icons/fi";
 import { cn } from "../lib/utils";
 
 export default function Navbar() {
-  const { user, isAdmin } = useAuth();
+  const { user } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const location = useLocation();
 
@@ -16,14 +15,14 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="sticky top-0 z-50 hidden w-full border-b border-gray-200 bg-white/80 px-6 py-4 backdrop-blur-md dark:border-gray-800 dark:bg-gray-950/80 md:block">
-      <div className="mx-auto flex max-w-7xl items-center justify-between">
+    <nav className="sticky top-4 z-50 hidden w-full px-4 md:block">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between rounded-full border border-white/20 bg-background/70 px-6 shadow-xl backdrop-blur-xl dark:border-white/10 dark:bg-background/60">
         <div className="flex items-center gap-8">
-          <Link to="/" className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <Link to="/" className="text-xl font-bold tracking-tight text-foreground">
             AppHub
           </Link>
           
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-2">
             {navLinks.map((link) => {
               const isActive = location.pathname === link.to;
               return (
@@ -31,11 +30,13 @@ export default function Navbar() {
                   key={link.to}
                   to={link.to}
                   className={cn(
-                    "flex items-center gap-2 text-sm font-medium transition-colors hover:text-black dark:hover:text-white",
-                    isActive ? "text-black dark:text-white" : "text-gray-500 dark:text-gray-400"
+                    "flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-colors",
+                    isActive 
+                      ? "bg-foreground/10 text-foreground" 
+                      : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
                   )}
                 >
-                  <link.icon size={18} />
+                  <link.icon size={16} className={cn(isActive && "stroke-[2.5px]")} />
                   {link.label}
                 </Link>
               );
@@ -43,25 +44,25 @@ export default function Navbar() {
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
           <button
             onClick={toggleTheme}
-            className="rounded-full p-2 text-gray-500 transition-colors hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground"
             aria-label="Toggle theme"
           >
-            {theme === "light" ? <FiMoon size={20} /> : <FiSun size={20} />}
+            {theme === "light" ? <FiMoon size={18} /> : <FiSun size={18} />}
           </button>
           
           <Link
             to="/account"
             className={cn(
-              "flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors",
+              "flex h-10 items-center gap-2 rounded-full px-5 text-sm font-bold transition-all",
               location.pathname === "/account"
-                ? "bg-gray-100 text-black dark:bg-gray-800 dark:text-white"
-                : "text-gray-500 hover:bg-gray-50 hover:text-black dark:text-gray-400 dark:hover:bg-gray-900 dark:hover:text-white"
+                ? "bg-primary text-primary-foreground shadow-md"
+                : "bg-foreground/5 text-foreground hover:bg-primary hover:text-primary-foreground"
             )}
           >
-            <FiUser size={18} />
+            <FiUser size={16} />
             {user ? "Account" : "Sign In"}
           </Link>
         </div>

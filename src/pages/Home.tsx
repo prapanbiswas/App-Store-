@@ -39,13 +39,13 @@ export default function Home() {
   }, [apps]);
 
   return (
-    <div className="mx-auto max-w-7xl px-6">
-      <div className="mb-10 pt-4">
-        <h1 className="mb-3 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl dark:text-white">
-          Discover Great Apps
+    <div className="mx-auto max-w-7xl px-4 md:px-6">
+      <div className="mb-12 pt-8 md:pt-16 max-w-3xl">
+        <h1 className="mb-4 text-4xl font-black tracking-tight text-foreground sm:text-5xl lg:text-7xl">
+          Discover Great Apps.
         </h1>
-        <p className="max-w-2xl text-lg text-gray-500 dark:text-gray-400">
-          The cleanest, open hub for Android applications. Explore our carefully curated selection.
+        <p className="text-lg md:text-xl text-muted-foreground font-medium">
+          The cleanest, open hub for Android applications. Explore our carefully curated selection without the clutter.
         </p>
       </div>
 
