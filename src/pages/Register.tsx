@@ -145,6 +145,18 @@ export default function Register() {
             Sign in here
           </Link>
         </p>
+
+        <p className="mt-4 px-2 text-center text-xs text-gray-400 dark:text-gray-600">
+          By creating an account, you agree to our{" "}
+          <Link to="/terms" className="hover:text-gray-700 hover:underline dark:hover:text-gray-300">
+            Terms &amp; Conditions
+          </Link>{" "}
+          and{" "}
+          <Link to="/privacy" className="hover:text-gray-700 hover:underline dark:hover:text-gray-300">
+            Privacy Policy
+          </Link>
+          .
+        </p>
       </div>
     </div>
   );

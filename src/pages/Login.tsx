@@ -163,6 +163,16 @@ export default function Login() {
             Register here
           </Link>
         </p>
+
+        <div className="mt-6 flex justify-center gap-4 border-t border-gray-100 pt-6 text-xs text-gray-400 dark:border-gray-800 dark:text-gray-600">
+          <Link to="/privacy" className="hover:text-gray-700 hover:underline dark:hover:text-gray-300">
+            Privacy Policy
+          </Link>
+          <span>·</span>
+          <Link to="/terms" className="hover:text-gray-700 hover:underline dark:hover:text-gray-300">
+            Terms &amp; Conditions
+          </Link>
+        </div>
       </div>
     </div>
   );

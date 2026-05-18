@@ -10,6 +10,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AdminPanel from "./pages/AdminPanel";
 import AppDetails from "./pages/AppDetails";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsAndConditions from "./pages/TermsAndConditions";
 
 function Layout() {
   return (
@@ -37,6 +39,8 @@ export default function App() {
               <Route path="register" element={<Register />} />
               <Route path="admin" element={<AdminPanel />} />
               <Route path="app/:id" element={<AppDetails />} />
+              <Route path="privacy" element={<PrivacyPolicy />} />
+              <Route path="terms" element={<TermsAndConditions />} />
             </Route>
           </Routes>
         </HashRouter>
