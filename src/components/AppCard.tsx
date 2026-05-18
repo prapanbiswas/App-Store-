@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { FiDownload, FiStar } from "react-icons/fi";
 import { motion } from "motion/react";
-import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 
 interface AppCardProps {
   id: string;

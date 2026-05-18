@@ -6,14 +6,14 @@ import { db, storage } from "../lib/firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { collection, doc, setDoc, serverTimestamp, query, onSnapshot, orderBy } from "firebase/firestore";
 import { FiUploadCloud, FiCheckCircle, FiTrash2, FiActivity, FiDownload, FiStar } from "react-icons/fi";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "../components/ui/card";
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
-import { Textarea } from "../components/ui/textarea";
-import { Label } from "../components/ui/label";
-import { Checkbox } from "../components/ui/checkbox";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
 export default function AdminPanel() {
